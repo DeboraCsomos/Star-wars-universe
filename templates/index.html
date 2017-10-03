@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <title>API wars</title>
+</head>
+<body>
+    <h1>Star Wars universe planets</h1>
+    <form action="{{ url_for('index') }}" method="post">
+        <button id="previous" class="btn btn-info" type=submit name="new-page" value='{{ previous_page }}'>Previous</button>
+        <button id="next" class="btn btn-info" type=submit name="new-page" value='{{ next_page }}'>Next</button>
+    </form>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Diameter</th>
+                <th>Climate</th>
+                <th>Terrain</th>
+                <th>Surface Water Percentage</th>
+                <th>Population</th>
+                <th>Residents</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for planet in planets %}
+            <tr>
+                <td>{{ planet.name }}</td>
+                <td>{{ planet.diameter }}</td>
+                <td>{{ planet.climate }}</td>
+                <td>{{ planet.terrain }}</td>
+                <td>{{ planet.surface_water }}</td>
+                <td>{{ planet.population }}</td>
+                {% if planet.residents != 'no known residents' %}
+                    <td><a id="residents" class="btn btn-info" href="">{{ planet.residents }}</a></td>
+                {% else %}
+                    <td>{{ planet.residents }}</td>
+                {% endif %}
+                <td><a id="vote" class="btn btn-info" href="">Vote</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="{{ url_for('static', filename='js/jquery.js') }}" defer></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+</body>
+</html>
