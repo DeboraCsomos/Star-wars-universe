@@ -1,53 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <title>API wars</title>
-</head>
-<body>
-    <h1>Star Wars universe planets</h1>
-    <form action="{{ url_for('index') }}" method="post">
-        <button id="previous" class="btn btn-info" type=submit name="new-page" value='{{ previous_page }}'>Previous</button>
-        <button id="next" class="btn btn-info" type=submit name="new-page" value='{{ next_page }}'>Next</button>
-    </form>
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Diameter</th>
-                <th>Climate</th>
-                <th>Terrain</th>
-                <th>Surface Water Percentage</th>
-                <th>Population</th>
-                <th>Residents</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for planet in planets %}
-            <tr>
-                <td>{{ planet.name }}</td>
-                <td>{{ planet.diameter }}</td>
-                <td>{{ planet.climate }}</td>
-                <td>{{ planet.terrain }}</td>
-                <td>{{ planet.surface_water }}</td>
-                <td>{{ planet.population }}</td>
-                {% if planet.residents != 'no known residents' %}
-                    <td><a id="residents" class="btn btn-info" href="">{{ planet.residents }}</a></td>
-                {% else %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+        <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+        <title>API wars</title>
+    </head>
+    <body>
+        
+        <!-- Resident modal -->
+        <div class="modal fade" id="residentModal" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <!-- header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!-- body -->
+                    <div class="modal-body">
+                        <table id="modal-table" class="table table-bordered table-hover">
+                            <thead>
+                              <tr>
+                                  <th>Name</th>
+                                  <th>Height</th>
+                                  <th>Mass</th>
+                                  <th>Hair color</th>
+                                  <th>Skin color</th>
+                                  <th>Eye color</th>
+                                  <th>Birth year</th>
+                                  <th>Gender</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Planet list</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Voting statistics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Registration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Logout</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                Signed in as ?
+            </span>
+        </nav>
+        
+        <h1>Star Wars universe planets</h1>
+        <form action="{{ url_for('index') }}" method="post">
+            <button id="previous" class="btn btn-info" type=submit name="new-page" value='{{ previous_page }}'>Previous</button>
+            <button id="next" class="btn btn-info" type=submit name="new-page" value='{{ next_page }}'>Next</button>
+        </form>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Diameter</th>
+                    <th>Climate</th>
+                    <th>Terrain</th>
+                    <th>Surface Water Percentage</th>
+                    <th>Population</th>
+                    <th>Residents</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for planet in planets %}
+                <tr>
+                    <td>{{ planet.name }}</td>
+                    <td>{{ planet.diameter }}</td>
+                    <td>{{ planet.climate }}</td>
+                    <td>{{ planet.terrain }}</td>
+                    <td>{{ planet.surface_water }}</td>
+                    <td>{{ planet.population }}</td>
+                    {% if planet.residents != 'no known residents' %}
+                    <td><button type="button" id="residents" class="btn btn-secondary" data-toggle="modal" data-target="#residentModal" data-planet="{{ planet.name }}" data-urls="{{ planet.residents }}">
+                        {{ planet.residents|count }} resident(s)
+                    </button></td>
+                    {% else %}
                     <td>{{ planet.residents }}</td>
-                {% endif %}
-                <td><a id="vote" class="btn btn-info" href="">Vote</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <script src="{{ url_for('static', filename='js/jquery.js') }}" defer></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-</body>
-</html>
+                    {% endif %}
+                    <td><a id="vote" class="btn btn-secondary" href="">Vote</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    </body>
+    </html>
