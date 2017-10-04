@@ -1,9 +1,7 @@
 $("#residentModal").on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
     var planet = button.data("planet");
-    console.log(button.data("urls"));
     var residents = button.data("urls").replace(/'/g, '').slice(1,-1).split(',');
-    console.log(residents);
     var modal = $(this);
     modal.find(".modal-title").text(`Residents of ${planet}`);
     var modalTableBody = modal.find("#table-body");
@@ -23,6 +21,7 @@ $("#residentModal").on('show.bs.modal', function(event) {
                                 <td>${response["birth_year"]}</td>
                                 <td>${response["gender"]}</td>
                             </tr>`
+                console.log(resident);
                 modalTableBody.append(resident);
             }
         });
