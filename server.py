@@ -13,17 +13,20 @@ def index():
     next_page = response['next']
     previous_page = response['previous']
     planets = response['results']
+    planets = format_result(planets)
+    return render_template('index.html', next_page=next_page, previous_page=previous_page, planets=planets)
+
+
+def format_result(planets):
     for planet in planets:
         planet["diameter"] += " km"
         if planet["surface_water"] != "unknown":
             planet["surface_water"] += "%"
         if planet["population"] != "unknown":
             planet["population"] += " people"
-        if planet["residents"]:
-            planet["residents"] = "{} resident(s)".format(len(planet["residents"]))
-        elif not planet["residents"]:
+        if not planet["residents"]:
             planet["residents"] = "no known residents"
-    return render_template('index.html', next_page=next_page, previous_page=previous_page, planets=planets)
+    return planets
 
 
 def main():
