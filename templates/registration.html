@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>New user registration</title>
+    </head>
+    <body>
+            <h1>Register new user</h1>
+                <form action="/registration" method="post">
+                    {% if not new_user %}
+                    <p>
+                        <font size="3" color="red">User already exists!</font>
+                    </p>
+                    {% endif %}
+                    <p>
+                        <div class="register-input">
+                            <label for="username">User name</label><br>
+                            <input name="username" maxlength=15 required placeholder="username...">
+                        </div>
+                    </p>
+                    <p>
+                        <div class="register-input">
+                            <label for="password">Password</label><br>
+                            <input name="password" type="password" maxlength=10 required placeholder="password...">
+                        </div>
+                    </p>
+                    <p>
+                        <abbr title="Register user"><button type="submit">Register</button></abbr>
+                    </p>
+                </form>
+                <a id="back" href="/"><abbr title="Back to the home page"></abbr></a>
+
+    </body>
+</html>
