@@ -42,6 +42,16 @@ def check_and_register_user(cursor, username, password):
     return True
 
 
+@connection_handler
+def get_user_by_username(cursor, username):
+    cursor.execute("""
+                   SELECT username, password, id
+                   FROM users
+                   WHERE username = %s;
+                   """, (username,))
+    return cursor.fetchone()
+
+
 def get_hashed_password(plain_text_password):
     # Hash a password for the first time
     #   (Using bcrypt, the salt is saved into the hash itself)
