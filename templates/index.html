@@ -58,7 +58,7 @@
                     <a class="nav-link" href="">Voting statistics</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Registration</a>
+                    <a class="nav-link" href="{{ url_for('registration') }}">Registration</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="">Login</a>
@@ -77,14 +77,15 @@
             <button id="previous" class="btn btn-info" type=submit name="new-page" value='{{ previous_page }}'>Previous</button>
             <button id="next" class="btn btn-info" type=submit name="new-page" value='{{ next_page }}'>Next</button>
         </form>
-        <table class="table table-bordered table-hover">
+        <table id="index-table" class="table table-bordered table-hover table-responsive">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Diameter</th>
                     <th>Climate</th>
                     <th>Terrain</th>
-                    <th>Surface Water Percentage</th>
+                    <th>Surface Water
+                        Percentage</th>
                     <th>Population</th>
                     <th>Residents</th>
                     <th></th>
@@ -100,13 +101,13 @@
                     <td>{{ planet.surface_water }}</td>
                     <td>{{ planet.population }}</td>
                     {% if planet.residents != 'no known residents' %}
-                    <td><button type="button" id="residents" class="btn btn-secondary" data-toggle="modal" data-target="#residentModal" data-planet="{{ planet.name }}" data-urls="{{ planet.residents }}">
+                    <td><button type="button" id="residents" class="btn" data-toggle="modal" data-target="#residentModal" data-planet="{{ planet.name }}" data-urls="{{ planet.residents }}">
                         {{ planet.residents|count }} resident(s)
                     </button></td>
                     {% else %}
                     <td>{{ planet.residents }}</td>
                     {% endif %}
-                    <td><a id="vote" class="btn btn-secondary" href="">Vote</a></td>
+                    <td><button type="button" id="vote" class="btn">Vote</button></td>
                 </tr>
                 {% endfor %}
             </tbody>
