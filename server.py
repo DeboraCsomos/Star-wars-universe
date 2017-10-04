@@ -1,5 +1,6 @@
 from flask import Flask, session, url_for, request, redirect, render_template
 import requests
+from datahandler import *
 
 app = Flask(__name__)
 
@@ -15,6 +16,20 @@ def index():
     planets = response['results']
     planets = format_result(planets)
     return render_template('index.html', next_page=next_page, previous_page=previous_page, planets=planets)
+
+
+@app.route("/registration", methods=["GET", "POST"])
+def registration():
+    new_user = True
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        hashed_password = get_hashed_password(password)
+        new_user = check_and_register_user(username, hashed_password)
+        if new_user:
+            session['username'] = username
+            return redirect("/")
+    return render_template('registration.html', new_user=new_user)
 
 
 def format_result(planets):
