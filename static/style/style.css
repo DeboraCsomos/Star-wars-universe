@@ -1,0 +1,9 @@
+nav {
+    box-shadow: 5px 0 5px grey;
+    background: linear-gradient(white, #E9E8E8);
+    margin-bottom: 20px;
+}
+
+h1 {
+    margin: 0 0 20px 20px;
+}
