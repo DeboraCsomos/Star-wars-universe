@@ -27,7 +27,8 @@ def registration():
         hashed_password = get_hashed_password(password)
         new_user = check_and_register_user(username, hashed_password)
         if new_user:
-            session['username'] = username
+            session['username'] = new_user["username"]
+            session['user_id'] = new_user["id"]
             return redirect(url_for('index'))
     return render_template('registration.html', new_user=new_user)
 
