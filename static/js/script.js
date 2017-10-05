@@ -27,3 +27,30 @@ $("#residentModal").on('show.bs.modal', function(event) {
         });
     }
 });
+
+$(".vote").one("click", function (event) {
+    return saveVote(event);
+})
+function saveVote(event) {
+    var voteButton = $(event.target);
+    console.log(voteButton);
+    planetName = voteButton.data("planet");
+    planetId = voteButton.data("planet-id");
+    $.ajax({
+    type: "POST",
+    url: "/vote",
+    data: { 'planet': planetName, 'planet_id': planetId },
+    success: function(response) {
+    voteButton[0].innerHTML = "Voted";
+    voteButton.attr("class", "voted")
+    voteButton.on('click', function (event) {
+        alert("You already voted on that planet!");
+    })
+},
+    error: function(xhr, thrownError) {
+    alert(xhr.status);
+    alert(thrownError);
+}
+});
+    return false;
+}
