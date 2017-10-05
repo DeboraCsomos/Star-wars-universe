@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS public.users;
-DROP TABLE IF EXISTS public.planet_votes;
-DROP SEQUENCE IF EXISTS public.users_id_seq;
-DROP SEQUENCE IF EXISTS public.planet_votes_id_seq;
+DROP TABLE IF EXISTS public.users CASCADE;
+DROP TABLE IF EXISTS public.planet_votes CASCADE;
+DROP SEQUENCE IF EXISTS public.users_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS public.planet_votes_id_seq CASCADE;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY NOT NULL,
@@ -41,5 +41,5 @@ ALTER TABLE ONLY planet_votes
 ALTER TABLE ONLY planet_votes
     ALTER COLUMN id SET DEFAULT nextval('planet_votes_id_seq'::regclass);
 
-INSERT INTO users VALUES (1, 'admin', 'admin');
+INSERT INTO users VALUES (1, 'admin', '$2b$12$2lI6IneND1IPgb1Jp3KUbukGfgX/c9DYjgKRSzO/mwxUPhxyhnfSm');
 SELECT pg_catalog.setval('users_id_seq', 1, true);
