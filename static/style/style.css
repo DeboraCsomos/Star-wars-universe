@@ -4,6 +4,21 @@ nav {
     margin-bottom: 20px;
 }
 
-h1 {
-    margin: 0 0 20px 20px;
+h1, #previous {
+    margin: 0 0 20px 35px;
+}
+
+#next {
+    margin-bottom: 20px;
+}
+
+#index-table {
+    width: 95%;
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+#residents, #vote {
+    border: 1px solid grey;
+    background: linear-gradient(white, #C5C5C5);
 }
