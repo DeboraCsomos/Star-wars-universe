@@ -3,6 +3,7 @@ import psycopg2
 import psycopg2.extras
 from flask import Flask, render_template, redirect, request, session, url_for
 import bcrypt
+from datetime import datetime
 
 
 def open_database():
@@ -45,11 +46,21 @@ def check_and_register_user(cursor, username, password):
 @connection_handler
 def get_user_by_username(cursor, username):
     cursor.execute("""
-                   SELECT username, password, id
+                   SELECT id, username, password
                    FROM users
-                   WHERE username = %s;
-                   """, (username,))
+                   WHERE username = %(username)s;
+                   """, {'username': username})
     return cursor.fetchone()
+
+
+@connection_handler
+def vote_to_planet(cursor, planet_name, user_id, planet_id):
+    submission_time = datetime.now().replace(microsecond=0)
+    cursor.execute("""
+                   INSERT INTO planet_votes (planet_id, planet_name, user_id, submission_time)
+                   VALUES ( %(planet_id)s, %(planet)s, %(user_id)s, %(submission_time)s);
+                   """, {'planet_id': planet_id, 'planet': planet_name,  'user_id': user_id, 'submission_time': submission_time})
+    return "OK"
 
 
 def get_hashed_password(plain_text_password):
