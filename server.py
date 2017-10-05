@@ -1,6 +1,5 @@
 from flask import Flask, session, url_for, request, redirect, render_template
 import requests
-# import json
 from datahandler import *
 
 app = Flask(__name__)
@@ -44,13 +43,12 @@ def login():
             valid_password = check_password(password, user["password"])
             if valid_password:
                 session["username"] = username
-                print(username)
-                return render_template("index.html")
+                return username
             elif not valid_password:
                 valid_login = False
         elif not user:
             valid_login = False
-    return render_template("login.html", valid_login=valid_login)
+    # return render_template("login.html", valid_login=valid_login)
 
 
 @app.route('/logout')

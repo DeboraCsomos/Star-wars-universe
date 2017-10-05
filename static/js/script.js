@@ -38,10 +38,7 @@ $("#login").submit(function(event){
         url: "/login",  // Send the login info to this page
         data: str,
         success: function(response) {
-            console.log(response);
             var username = response;
-            console.log(username)
-            sessionStorage.setItem("username", username);
             logoutText = `<li class="nav-item">
                           <a class="nav-link" href="/logout">Logout</a>
                           </li>
@@ -52,6 +49,10 @@ $("#login").submit(function(event){
             $("nav ul li:last-child").replaceWith(logoutText);
             $("nav").append(loggedInText);
             $("#loginModal").modal('hide');
-        },    
+        },
+        error: function(){
+            alert('Invalid username or password!');
+          }
     })
+    return false; // end ajax call
 });
