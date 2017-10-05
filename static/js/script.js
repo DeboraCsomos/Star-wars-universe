@@ -4,7 +4,7 @@ $("#residentModal").on('show.bs.modal', function(event) {
     var residents = button.data("urls").replace(/'/g, '').slice(1,-1).split(',');
     var modal = $(this);
     modal.find(".modal-title").text(`Residents of ${planet}`);
-    var modalTableBody = modal.find("#table-body");
+    var modalTableBody = modal.find("#resident-table-body");
     modalTableBody.empty();
     for (let i = 0; i < residents.length; i++) {
         $.ajax({
@@ -21,19 +21,18 @@ $("#residentModal").on('show.bs.modal', function(event) {
                                 <td>${response["birth_year"]}</td>
                                 <td>${response["gender"]}</td>
                             </tr>`
-                console.log(resident);
                 modalTableBody.append(resident);
             }
         });
     }
 });
 
+
 $(".vote").one("click", function (event) {
     return saveVote(event);
 })
 function saveVote(event) {
     var voteButton = $(event.target);
-    console.log(voteButton);
     planetName = voteButton.data("planet");
     planetId = voteButton.data("planet-id");
     $.ajax({
@@ -54,3 +53,27 @@ function saveVote(event) {
 });
     return false;
 }
+
+
+$("#voteStatisticsModal").on('show.bs.modal', function(event) {
+    $.ajax({
+        type: "GET",
+        url: "/statistics",
+        success: function(response) {
+            var response = JSON.parse(response);
+            var tableBody = $("#voteStatisticsModal").find("#vote-table-body")
+            tableBody.empty()
+            for (let i = 0; i < response.length; i++) {
+                let planet = response[i]
+                let planetVoteText = `<tr>
+                                    <td> ${planet["planet_name"]} </td>
+                                    <td> ${planet["votes"]}       </td>
+                                  </tr>`;
+                tableBody.append(planetVoteText);
+            };
+        },
+        error: function() {
+            alert("Error");
+        }
+    })
+});
