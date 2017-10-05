@@ -40,7 +40,7 @@ def check_and_register_user(cursor, username, password):
     cursor.execute("""INSERT INTO users (username, password)
                    VALUES(%(username)s, %(password)s);
                    """, {'username': username, 'password': password})
-    return True
+    return get_user_by_username(username)
 
 
 @connection_handler
@@ -68,7 +68,8 @@ def get_voted_planets(cursor):
     cursor.execute("""
                    SELECT planet_name, COUNT(id) AS votes
                    FROM planet_votes
-                   GROUP BY planet_name;
+                   GROUP BY planet_name
+                   ORDER BY votes DESC;
                    """)
     votes = cursor.fetchall()
     return votes
