@@ -39,10 +39,12 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
         user = get_user_by_username(username)
+        user_id = user['id']
         if user:
             valid_password = check_password(password, user["password"])
             if valid_password:
                 session["username"] = username
+                session["user_id"] = user_id
                 return redirect(url_for('index'))
             elif not valid_password:
                 valid_login = False
@@ -57,9 +59,19 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/vote', methods=['POST'])
+def vote():
+    planet_name = request.form.get("planet")
+    planet_id = request.form.get("planet_id")
+    user_id = session["user_id"]
+    vote_to_planet(planet_name, user_id, planet_id)
+    return ""
+
+
 def format_result(planets):
     for planet in planets:
         planet["diameter"] += " km"
+        planet["id"] = planet["url"][-2]
         if planet["surface_water"] != "unknown":
             planet["surface_water"] += "%"
         if planet["population"] != "unknown":
