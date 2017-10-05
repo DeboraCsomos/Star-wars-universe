@@ -1,6 +1,5 @@
-from flask import Flask, session, url_for, request, redirect, render_template
+from flask import Flask, session, url_for, request, redirect, render_template, jsonify
 import requests
-import json
 from datahandler import *
 
 app = Flask(__name__)
@@ -73,7 +72,7 @@ def vote():
 @app.route('/statistics', methods=["GET"])
 def statistics():
     stats = get_voted_planets()
-    return json.dumps(stats)
+    return jsonify(stats)
 
 
 def format_result(planets):

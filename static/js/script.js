@@ -60,7 +60,6 @@ $("#voteStatisticsModal").on('show.bs.modal', function(event) {
         type: "GET",
         url: "/statistics",
         success: function(response) {
-            var response = JSON.parse(response);
             var tableBody = $("#voteStatisticsModal").find("#vote-table-body")
             tableBody.empty()
             for (let i = 0; i < response.length; i++) {
