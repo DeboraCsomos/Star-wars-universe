@@ -63,6 +63,17 @@ def vote_to_planet(cursor, planet_name, user_id, planet_id):
     return "OK"
 
 
+@connection_handler
+def get_voted_planets(cursor):
+    cursor.execute("""
+                   SELECT planet_name, COUNT(id) AS votes
+                   FROM planet_votes
+                   GROUP BY planet_name;
+                   """)
+    votes = cursor.fetchall()
+    return votes
+
+
 def get_hashed_password(plain_text_password):
     # Hash a password for the first time
     #   (Using bcrypt, the salt is saved into the hash itself)
