@@ -33,7 +33,7 @@ def registration():
         session['user_id'] = new_user["id"]
         return username
     if not new_user:
-        return False
+        return
     # return render_template('registration.html', new_user=new_user)
 
 
@@ -76,6 +76,10 @@ def vote():
 def statistics():
     stats = get_voted_planets()
     return jsonify(stats)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error.html'), 404
 
 
 def get_voted_planets_by_user(planets):
