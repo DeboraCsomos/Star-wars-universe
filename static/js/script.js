@@ -24,7 +24,6 @@ $("#residentModal").on('show.bs.modal', function(event) {
                 modalTableBody.append(resident);
             }
         });
-        return false;
     }
 });
 
