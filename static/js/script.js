@@ -94,13 +94,14 @@ $("#login-form").submit(function(event){
         success: function(response) {
             var username = response;
             logoutText = `<li class="nav-item">
-                          <a class="nav-link" href="/logout">Logout</a>
+                            <a class="nav-link" href="/logout">Logout</a>
                           </li>
                           </ul>`
             loggedInText = `<span class="navbar-text">
-                            Signed in as ${username}
+                                Signed in as ${username}
                             </span>`
-            $("nav ul li:last-child").replaceWith(logoutText);
+            $("nav #registration, nav #login").detach();
+            $("nav ul").append(logoutText)
             $("nav").append(loggedInText);
             $("#loginModal").modal('hide');
             window.location.reload(true);
