@@ -42,9 +42,6 @@ function saveVote(event) {
     success: function(response) {
     voteButton[0].innerHTML = "Voted";
     voteButton.attr("class", "voted")
-    voteButton.on('click', function (event) {
-        alert("You already voted on that planet!");
-    })
 },
     error: function(xhr, thrownError) {
     alert(xhr.status);
@@ -54,6 +51,9 @@ function saveVote(event) {
     return false;
 }
 
+$(".voted").on('click', function (event) {
+    alert("You already voted on that planet!");
+})
 
 $("#voteStatisticsModal").on('show.bs.modal', function(event) {
     $.ajax({
