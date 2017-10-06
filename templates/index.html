@@ -58,7 +58,7 @@
                     <a class="nav-link" href="" data-toggle="modal" data-target="#voteStatisticsModal">Voting statistics</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('registration') }}">Registration</a>
+                    <a class="nav-link" id="registration" data-toggle="modal" data-target="#registrationModal" href="">Registration</a>
                 </li>
                 {% if session['username'] %}
                         <li class="nav-item">
@@ -70,7 +70,7 @@
                     </span>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="modal" data-target="#loginModal" href="">Login</a>
+                        <a class="nav-link" id="login" data-toggle="modal" data-target="#loginModal" href="">Login</a>
                     </li>
                 </ul>
                 {% endif %}
@@ -171,22 +171,21 @@
                         </div>
                         <!-- body -->
                         <div class="modal-body">
-                                <h1>Login page</h1>
-                                <form id="login" action="" method="POST">
+                                <form action="" id="login-form" method="POST">
                                     <p>
-                                        <div class="login-input">
-                                            <label class="login" for="username">User name</label><br>
+                                        <div class="form-input">
+                                            <label for="username">User name</label><br>
                                             <input name="username" type="text" maxlength="15"  required placeholder="username...">
                                         </div>
                                     </p>
                                     <p>
-                                        <div class="login-input">
-                                            <label class="login" for="password">Password</label><br>
+                                        <div class="form-input">
+                                            <label for="password">Password</label><br>
                                             <input name="password" type="password" maxlength="10"  required placeholder="password...">
                                         </div>
                                     </p>
                                     <p>
-                                        <abbr title="Login"><button id="login_button" type="submit">Login</button></abbr>
+                                        <button id="submit_button" type="submit"></button>
                                     </p>
                                 </form>
                         </div>
@@ -197,6 +196,45 @@
                     </div>
                 </div>
             </div>
+        
+        <!-- registration modal -->
+        <div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <!-- header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!-- body -->
+                    <div class="modal-body">
+                            <form action="" id="registration-form" method="POST">
+                                <p>
+                                    <div class="form-input">
+                                        <label for="username">User name</label><br>
+                                        <input name="username" type="text" maxlength="15"  required placeholder="username...">
+                                    </div>
+                                </p>
+                                <p>
+                                    <div class="form-input">
+                                        <label for="password">Password</label><br>
+                                        <input name="password" type="password" maxlength="10"  required placeholder="password...">
+                                    </div>
+                                </p>
+                                <p>
+                                    <button id="submit_button" type="submit"></button>
+                                </p>
+                            </form>
+                    </div>
+                    <!-- footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
