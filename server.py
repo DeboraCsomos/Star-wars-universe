@@ -15,6 +15,9 @@ def index():
     previous_page = response['previous']
     planets = response['results']
     planets = format_result(planets)
+    if session:
+        already_voted_planets = get_voted_planets_by_user(planets)
+        return render_template('index.html', next_page=next_page, previous_page=previous_page, planets=planets, voted_planets=already_voted_planets)
     return render_template('index.html', next_page=next_page, previous_page=previous_page, planets=planets)
 
 
@@ -74,6 +77,14 @@ def vote():
 def statistics():
     stats = get_voted_planets()
     return jsonify(stats)
+
+
+def get_voted_planets_by_user(planets):
+    planets_name = []
+    for planet in planets:
+        planets_name.append(planet["name"])
+    voted_planets = check_voted_planets_by_user(session["user_id"])
+    return voted_planets
 
 
 def format_result(planets):
