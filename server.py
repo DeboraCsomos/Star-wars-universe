@@ -121,12 +121,12 @@ def format_result(planets):
     return planets
 
 
-def main():
-    app.secret_key = "secret!planet"
-    app.run(
-        debug=True,
-        port=9000
-    )
+# def main():
+#     app.secret_key = "secret!planet"
+#     app.run(
+#         debug=True,
+#         port=9000
+#     )
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
