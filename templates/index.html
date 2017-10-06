@@ -9,46 +9,7 @@
         <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
         <title>API wars</title>
     </head>
-    <body>
-        
-        <!-- Resident modal -->
-        <div class="modal fade" id="residentModal" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <!-- header -->
-                    <div class="modal-header">
-                        <h5 class="modal-title"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <!-- body -->
-                    <div class="modal-body">
-                        <table id="modal-table" class="table table-bordered table-hover">
-                            <thead>
-                              <tr>
-                                  <th>Name</th>
-                                  <th>Height</th>
-                                  <th>Mass</th>
-                                  <th>Hair color</th>
-                                  <th>Skin color</th>
-                                  <th>Eye color</th>
-                                  <th>Birth year</th>
-                                  <th>Gender</th>
-                                </tr>
-                            </thead>
-                            <tbody id="resident-table-body">
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+    <body>        
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
@@ -57,18 +18,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="" data-toggle="modal" data-target="#voteStatisticsModal">Voting statistics</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="registration" data-toggle="modal" data-target="#registrationModal" href="">Registration</a>
-                </li>
                 {% if session['username'] %}
-                        <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
                     </ul>
                     <span class="navbar-text">
                         Signed in as {{session['username']}}
                     </span>
                 {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" id="registration" data-toggle="modal" data-target="#registrationModal" href="">Registration</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" id="login" data-toggle="modal" data-target="#loginModal" href="">Login</a>
                     </li>
@@ -157,6 +118,44 @@
                 </div>
             </div>
         </div>
+
+            <!-- Resident modal -->
+            <div class="modal fade" id="residentModal" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <!-- header -->
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!-- body -->
+                        <div class="modal-body">
+                            <table id="modal-table" class="table table-bordered table-hover">
+                                <thead>
+                                  <tr>
+                                      <th>Name</th>
+                                      <th>Height</th>
+                                      <th>Mass</th>
+                                      <th>Hair color</th>
+                                      <th>Skin color</th>
+                                      <th>Eye color</th>
+                                      <th>Birth year</th>
+                                      <th>Gender</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resident-table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         <!-- Login modal -->
         <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
