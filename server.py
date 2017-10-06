@@ -21,39 +21,37 @@ def index():
     return render_template('index.html', next_page=next_page, previous_page=previous_page, planets=planets)
 
 
-@app.route('/registration', methods=['GET', 'POST'])
+@app.route('/registration', methods=['POST'])
 def registration():
-    new_user = True
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        hashed_password = get_hashed_password(password)
-        new_user = check_and_register_user(username, hashed_password)
-        if new_user:
-            session['username'] = new_user["username"]
-            session['user_id'] = new_user["id"]
-            return redirect(url_for('index'))
-    return render_template('registration.html', new_user=new_user)
+    username = request.form.get("username")
+    password = request.form.get("password")
+    hashed_password = get_hashed_password(password)
+    new_user = check_and_register_user(username, hashed_password)
+    if new_user:
+        session['username'] = new_user["username"]
+        session['user_id'] = new_user["id"]
+        return username
+    if not new_user:
+        return False
+    # return render_template('registration.html', new_user=new_user)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
-    valid_login = True
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        user = get_user_by_username(username)
-        if user:
-            user_id = user['id']
-            valid_password = check_password(password, user["password"])
-            if valid_password:
-                session["username"] = username
-                session["user_id"] = user_id
-                return username
-            elif not valid_password:
-                valid_login = False
-        elif not user:
+    username = request.form.get("username")
+    password = request.form.get("password")
+    user = get_user_by_username(username)
+    if user:
+        user_id = user['id']
+        valid_password = check_password(password, user["password"])
+        if valid_password:
+            session["username"] = username
+            session["user_id"] = user_id
+            return username
+        elif not valid_password:
             valid_login = False
+    elif not user:
+        valid_login = False
     # return render_template("login.html", valid_login=valid_login)
 
 
