@@ -49,12 +49,12 @@ def login():
             if valid_password:
                 session["username"] = username
                 session["user_id"] = user_id
-                return redirect(url_for('index'))
+                return username
             elif not valid_password:
                 valid_login = False
         elif not user:
             valid_login = False
-    return render_template("login.html", valid_login=valid_login)
+    # return render_template("login.html", valid_login=valid_login)
 
 
 @app.route('/logout')

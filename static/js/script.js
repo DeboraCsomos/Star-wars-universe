@@ -30,30 +30,34 @@ $("#residentModal").on('show.bs.modal', function(event) {
 
 $(".vote").one("click", function (event) {
     return saveVote(event);
-})
+});
+
+
 function saveVote(event) {
     var voteButton = $(event.target);
     planetName = voteButton.data("planet");
     planetId = voteButton.data("planet-id");
     $.ajax({
-    type: "POST",
-    url: "/vote",
-    data: { 'planet': planetName, 'planet_id': planetId },
-    success: function(response) {
-    voteButton[0].innerHTML = "Voted";
-    voteButton.attr("class", "voted")
-},
-    error: function(xhr, thrownError) {
-    alert(xhr.status);
-    alert(thrownError);
-}
-});
-    return false;
-}
+            type: "POST",
+            url: "/vote",
+            data: { 'planet': planetName, 'planet_id': planetId },
+            success: function(response) {
+                voteButton[0].innerHTML = "Voted";
+                voteButton.attr("class", "voted")
+                },
+            error: function(xhr, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+        }
+    });
+    return false; // end ajax call
+};
+
 
 $(".voted").on('click', function (event) {
     alert("You already voted on that planet!");
-})
+});
+
 
 $("#voteStatisticsModal").on('show.bs.modal', function(event) {
     $.ajax({
@@ -74,5 +78,36 @@ $("#voteStatisticsModal").on('show.bs.modal', function(event) {
         error: function() {
             alert("Error");
         }
-    })
+    });
+});
+
+
+$("#login").submit(function(event){
+    // 'this' refers to the current submitted form  
+    var str = $(this).serialize();
+    
+    // -- Start AJAX Call --
+    $.ajax({ 
+        type: "POST",
+        url: "/login",  // Send the login info to this page
+        data: str,
+        success: function(response) {
+            var username = response;
+            logoutText = `<li class="nav-item">
+                          <a class="nav-link" href="/logout">Logout</a>
+                          </li>
+                          </ul>`
+            loggedInText = `<span class="navbar-text">
+                            Signed in as ${username}
+                            </span>`
+            $("nav ul li:last-child").replaceWith(logoutText);
+            $("nav").append(loggedInText);
+            $("#loginModal").modal('hide');
+            window.location.reload(true);
+        },
+        error: function(){
+            alert('Invalid username or password!');
+          }
+    });
+    return false; // end ajax call
 });
