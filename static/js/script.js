@@ -24,6 +24,7 @@ $("#residentModal").on('show.bs.modal', function(event) {
                 modalTableBody.append(resident);
             }
         });
+        return false;
     }
 });
 
@@ -82,15 +83,15 @@ $("#voteStatisticsModal").on('show.bs.modal', function(event) {
 });
 
 
-$("#login").submit(function(event){
+$("#login-form").submit(function(event){
     // 'this' refers to the current submitted form  
-    var str = $(this).serialize();
+    var logstr = $(this).serialize();
     
     // -- Start AJAX Call --
-    $.ajax({ 
+    $.ajax({
         type: "POST",
         url: "/login",  // Send the login info to this page
-        data: str,
+        data: logstr,
         success: function(response) {
             var username = response;
             logoutText = `<li class="nav-item">
@@ -107,7 +108,60 @@ $("#login").submit(function(event){
         },
         error: function(){
             alert('Invalid username or password!');
+        }
+    });
+    return false; // end ajax call
+});
+
+
+$("#loginModal").on('show.bs.modal', function(event) {
+    // var button = $(event.relatedTarget);
+    var modal = $(this);
+    // if(button.attr("id") === "registration") {
+    //     modal.find(".modal-title").text("Registration page");
+    //     modal.find("form"). attr("id", "registration-form")
+    //     modal.find("#submit_button").text("register")
+    // }
+    // else if (button.attr("id") === "login") {
+        modal.find(".modal-title").text("Login page");
+        modal.find("form"). attr("id", "login-form")
+        modal.find("#submit_button").text("login")
+    // }
+});
+
+
+$("#registration-form").submit(function(event) {
+    var regstr = $(this).serialize();
+    $.ajax({
+        type: "POST",
+        url: "/registration",  // Send the login info to this page
+        data: regstr,
+        success: function(response) {
+            console.log("4th")
+            var username = response;
+            logoutText = `<li class="nav-item">
+                          <a class="nav-link" href="/logout">Logout</a>
+                          </li>
+                          </ul>`
+            loggedInText = `<span class="navbar-text">
+                            Signed in as ${username}
+                            </span>`
+            $("nav ul li:last-child").replaceWith(logoutText);
+            $("nav").append(loggedInText);
+            $("#registrationModal").modal('hide');
+            window.location.reload(true);
+        },
+        error: function(){
+            console.log("error");
+            alert('Sorry, that user already exists!');
           }
     });
     return false; // end ajax call
+});
+
+$("#registrationModal").on('show.bs.modal', function(event) {
+    var modal = $(this);
+    modal.find(".modal-title").text("Registration page");
+    modal.find("form"). attr("id", "registration-form")
+    modal.find("#submit_button").text("register")
 });
