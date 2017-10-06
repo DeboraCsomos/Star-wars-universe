@@ -94,6 +94,7 @@ def statistics():
     stats = get_voted_planets()
     return jsonify(stats)
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error.html'), 404
@@ -113,20 +114,8 @@ def format_result(planets):
         planet["id"] = planet["url"][29:-1]  # slice the id from end of url
         if planet["surface_water"] != "unknown":
             planet["surface_water"] += "%"
-        if planet["population"] != "unknown":
-            
+        if planet["population"] != "unknown": 
             planet["population"] = locale.format("%d", int(planet["population"]), grouping=True) + " people"
         if not planet["residents"]:
             planet["residents"] = "no known residents"
     return planets
-
-
-# def main():
-#     app.secret_key = "secret!planet"
-#     app.run(
-#         debug=True,
-#         port=9000
-#     )
-
-# if __name__ == '__main__':
-#     main()
