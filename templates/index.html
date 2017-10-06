@@ -115,7 +115,11 @@
                     <td>{{ planet.residents }}</td>
                     {% endif %}
                     {% if session %}
-                    <td><button type="button" class="vote" class="btn" data-planet="{{ planet.name }}" data-planet-id="{{planet.id}}">Vote</button></td>
+                        {% if planet.name in voted_planets %}
+                            <td><button type="button" class="voted" class="btn" data-planet="{{ planet.name }}" data-planet-id="{{planet.id}}">Voted</button></td>
+                        {% else %}
+                        <td><button type="button" class="vote" class="btn" data-planet="{{ planet.name }}" data-planet-id="{{planet.id}}">Vote</button></td>
+                        {% endif %}
                     {% endif %}
                 </tr>
                 {% endfor %}
