@@ -21,6 +21,7 @@ locale.setlocale(locale.LC_ALL, '')
 
 
 app = Flask(__name__)
+app.secret_key = 'fixed_secret_key'
 
 
 @app.route('/', methods=['GET', 'POST'])
