@@ -2,19 +2,19 @@ from flask import Flask, session, url_for, request, redirect, render_template, j
 import requests
 import locale
 from datahandler import *
-import os
-import psycopg2
-import urllib
+# import os
+# import psycopg2
+# import urllib
 
-urllib.parse.uses_netloc.append('postgres')
-url = urllib.parse.urlparse(os.environ.get('DATABASE_URL'))
-connection = psycopg2.connect(
-    database=url.path[1:],
-    user=url.username,
-    password=url.password,
-    host=url.hostname,
-    port=url.port
-)
+# urllib.parse.uses_netloc.append('postgres')
+# url = urllib.parse.urlparse(os.environ.get('DATABASE_URL'))
+# connection = psycopg2.connect(
+#     database=url.path[1:],
+#     user=url.username,
+#     password=url.password,
+#     host=url.hostname,
+#     port=url.port
+# )
 
 
 locale.setlocale(locale.LC_ALL, '')

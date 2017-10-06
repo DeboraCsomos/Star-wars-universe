@@ -1,15 +1,24 @@
-from config import Config
+# from config import Config
 import psycopg2
 import psycopg2.extras
 from flask import Flask, render_template, redirect, request, session, url_for
 import bcrypt
 from datetime import datetime
+import os
+import urllib
 
 
 def open_database():
     try:
-        connection_string = Config.DB_CONNECTION_STR
-        connection = psycopg2.connect(connection_string)
+        # connection_string = Config.DB_CONNECTION_STR
+        urllib.parse.uses_netloc.append('postgres')
+        url = urllib.parse.urlparse(os.environ.get('DATABASE_URL'))
+        connection = psycopg2.connect(
+            database=url.path[1:],
+            user=url.username,
+            password=url.password,
+            host=url.hostname,
+            port=url.port)
         connection.autocommit = True
     except psycopg2.DatabaseError as exception:
         print(exception)
