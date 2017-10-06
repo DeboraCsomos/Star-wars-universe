@@ -6,14 +6,26 @@ locale.setlocale(locale.LC_ALL, '')
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
-    response = requests.get('https://swapi.co/api/planets').json()
-    if request.method == 'POST':
-        new_page = request.form.get('new-page')
-        response = requests.get(new_page).json()
-    next_page = response['next']
-    previous_page = response['previous']
+    return redirect(url_for('homepage'))
+
+
+@app.route('/planets', methods=['GET'])
+def homepage():
+    if request.args.get("page"):
+        page_number = int(request.args.get("page"))
+        response = requests.get('https://swapi.co/api/planets?page={}'.format(page_number)).json()
+    else:
+        response = requests.get('https://swapi.co/api/planets').json()
+    if response['next']:
+        next_page = response['next'][35:]
+    else:
+        next_page = None
+    if response['previous']:
+        previous_page = response['previous'][35:]
+    else:
+        previous_page = None
     planets = response['results']
     planets = format_result(planets)
     if session:
