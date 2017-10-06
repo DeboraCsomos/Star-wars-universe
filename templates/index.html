@@ -41,8 +41,16 @@
         
         <h1>Star Wars universe planets</h1>
         <form action="{{ url_for('index') }}" method="post">
-            <button id="previous" class="btn btn-info" type=submit name="new-page" value='{{ previous_page }}'>Previous</button>
+            {% if not previous_page %}
+                <button id="previous" class="btn btn-info" type=submit name="new-page" value='{{ previous_page }}' disabled>Previous</button>
+            {% else %}
+                <button id="previous" class="btn btn-info" type=submit name="new-page" value='{{ previous_page }}'>Previous</button>
+            {% endif %}
+            {% if not next_page %}
+                <button id="next" class="btn btn-info" type=submit name="new-page" value='{{ next_page }}' disabled>Next</button>
+            {% else %}
             <button id="next" class="btn btn-info" type=submit name="new-page" value='{{ next_page }}'>Next</button>
+            {% endif %}
         </form>
         <table id="index-table" class="table table-bordered table-hover table-responsive">
             <thead>

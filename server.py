@@ -92,7 +92,8 @@ def get_voted_planets_by_user(planets):
 
 def format_result(planets):
     for planet in planets:
-        planet["diameter"] = locale.format("%d", int(planet["diameter"]), grouping=True) + " km"
+        if planet["diameter"] != "unknown":
+            planet["diameter"] = locale.format("%d", int(planet["diameter"]), grouping=True) + " km"
         planet["id"] = planet["url"][29:-1]  # slice the id from end of url
         if planet["surface_water"] != "unknown":
             planet["surface_water"] += "%"
