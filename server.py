@@ -1,7 +1,6 @@
 from flask import Flask, session, url_for, request, redirect, render_template, jsonify
 import requests
 from datahandler import *
-
 app = Flask(__name__)
 
 
