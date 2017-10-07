@@ -1,8 +1,7 @@
 from flask import Flask, session, url_for, request, redirect, render_template, jsonify
 import requests
-import locale
 from datahandler import *
-locale.setlocale(locale.LC_ALL, '')
+
 app = Flask(__name__)
 
 
@@ -105,13 +104,13 @@ def get_voted_planets_by_user(planets):
 def format_result(planets):
     for planet in planets:
         if planet["diameter"] != "unknown":
-            planet["diameter"] = locale.format("%d", int(planet["diameter"]), grouping=True) + " km"
+            planet["diameter"] = '{:,} km'.format(int(planet["diameter"]))
         planet["id"] = planet["url"][29:-1]  # slice the id from end of url
         if planet["surface_water"] != "unknown":
             planet["surface_water"] += "%"
         if planet["population"] != "unknown":
             
-            planet["population"] = locale.format("%d", int(planet["population"]), grouping=True) + " people"
+            planet["population"] = '{:,} people'.format(int(planet["population"]))
         if not planet["residents"]:
             planet["residents"] = "no known residents"
     return planets
