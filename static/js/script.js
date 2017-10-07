@@ -4,9 +4,16 @@ $("#residentModal").on('show.bs.modal', function(event) {
     var residents = button.data("urls").replace(/'/g, '').slice(1,-1).split(',');
     var modal = $(this);
     modal.find(".modal-title").text(`Residents of ${planet}`);
-    var modalTableBody = modal.find("#resident-table-body");
-    modalTableBody.empty();
+    var tableBody = modal.find("#resident-table-body");
+    loading = `<tr id="loading" align="center">
+                    <td colspan="8"><img src="/static/loading.gif" alt="Loading..."></td>
+               </tr>`
+    tableBody.empty();
+    tableBody.append(loading);
+    var deferring = [];
+    var residentRows = [];
     for (let i = 0; i < residents.length; i++) {
+        deferring.push(
         $.ajax({
             dataType: "json",
             url: residents[i],
@@ -21,10 +28,15 @@ $("#residentModal").on('show.bs.modal', function(event) {
                                 <td>${response["birth_year"]}</td>
                                 <td>${response["gender"]}</td>
                             </tr>`
-                modalTableBody.append(resident);
+                residentRows.push(resident);
             }
-        });
+        })
+        )
     }
+    $.when.apply($, deferring).done(function() {
+        $("#loading").detach();
+        tableBody.append(residentRows);
+    })
 });
 
 
