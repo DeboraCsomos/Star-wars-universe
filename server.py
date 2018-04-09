@@ -87,6 +87,7 @@ def statistics():
     stats = get_voted_planets()
     return jsonify(stats)
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error.html'), 404

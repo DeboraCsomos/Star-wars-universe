@@ -5,8 +5,8 @@ $("#residentModal").on('show.bs.modal', function(event) {
     var modal = $(this);
     modal.find(".modal-title").text(`Residents of ${planet}`);
     var tableBody = modal.find("#resident-table-body");
-    loading = `<tr id="loading" align="center">
-                    <td colspan="8"><img src="/static/loading.gif" alt="Loading..."></td>
+    var loading = `<tr id="loading" align="center">
+                    <td colspan="8"><img src="/static/loading_sm.gif" alt="Loading..."></td>
                </tr>`
     tableBody.empty();
     tableBody.append(loading);
@@ -127,18 +127,10 @@ $("#login-form").submit(function(event){
 
 
 $("#loginModal").on('show.bs.modal', function(event) {
-    // var button = $(event.relatedTarget);
     var modal = $(this);
-    // if(button.attr("id") === "registration") {
-    //     modal.find(".modal-title").text("Registration page");
-    //     modal.find("form"). attr("id", "registration-form")
-    //     modal.find("#submit_button").text("register")
-    // }
-    // else if (button.attr("id") === "login") {
         modal.find(".modal-title").text("Login page");
         modal.find("form"). attr("id", "login-form")
-        modal.find("#submit_button").text("login")
-    // }
+        modal.find(".submit_button").text("login")
 });
 
 
@@ -175,5 +167,5 @@ $("#registrationModal").on('show.bs.modal', function(event) {
     var modal = $(this);
     modal.find(".modal-title").text("Registration page");
     modal.find("form"). attr("id", "registration-form")
-    modal.find("#submit_button").text("register")
+    modal.find(".submit_button").text("register")
 });
